@@ -1,0 +1,32 @@
+version: '3'
+
+services: 
+  web:
+    image: 'laravel:be'
+    ports: 
+      - '8001:8000'
+    volumes: 
+      - ./:/app
+    command: php artisan serve --host=0.0.0.0
+    links:
+      - 'database'
+      - 'mail'
+  
+  database: 
+    image: 'mysql:5.7.26'
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+  jenkins: 
+    image: 'jenkins'
+    ports:
+      - '50000:50000'
+  mail:
+    image: 'eaudeweb/mailtrap'
+    ports:
+      - '2525:80'
+# volumes:
+#  mysql-data:
